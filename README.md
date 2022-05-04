@@ -1,2 +1,6 @@
-# Bhojpur State - Change Management Engine
-The Bhojpur State is a software-as-a-service product used as a State Management Engine based on Bhojpur.NET Platform for application delivery.
+# Bhojpur State - Foundation Framework
+
+The `Bhojpur State` is a very secure, high performance, decentralized state management engine
+applied within the [Bhojpur.NET Platform](https://github.com/bhojpur/platform/) for delivery
+of distributed `applications` or `services`. It is a primary software framework underlying
+the [Bhojpur Chain](https://github.com/bhojpur/chain/) (i.e. BlockChain development kit).

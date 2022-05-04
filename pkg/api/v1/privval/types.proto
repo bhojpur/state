@@ -1,0 +1,104 @@
+syntax = "proto3";
+
+// Copyright (c) 2018 Bhojpur Consulting Private Limited, India. All rights reserved.
+
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+
+package v1.privval;
+
+import "pkg/api/v1/crypto/keys.proto";
+import "pkg/api/v1/types/types.proto";
+import "gogoproto/gogo.proto";
+
+option go_package = "github.com/bhojpur/state/pkg/api/v1/privval;privval";
+
+enum Errors {
+  ERRORS_UNKNOWN             = 0;
+  ERRORS_UNEXPECTED_RESPONSE = 1;
+  ERRORS_NO_CONNECTION       = 2;
+  ERRORS_CONNECTION_TIMEOUT  = 3;
+  ERRORS_READ_TIMEOUT        = 4;
+  ERRORS_WRITE_TIMEOUT       = 5;
+}
+
+message RemoteSignerError {
+  int32  code        = 1;
+  string description = 2;
+}
+
+// PubKeyRequest requests the consensus public key from the remote signer.
+message PubKeyRequest {
+  string chain_id = 1;
+}
+
+// PubKeyResponse is a response message containing the public key.
+message PubKeyResponse {
+  v1.crypto.PublicKey pub_key = 1 [(gogoproto.nullable) = false];
+  RemoteSignerError           error   = 2;
+}
+
+// SignVoteRequest is a request to sign a vote
+message SignVoteRequest {
+  v1.types.Vote vote     = 1;
+  string                chain_id = 2;
+}
+
+// SignedVoteResponse is a response containing a signed vote or an error
+message SignedVoteResponse {
+  v1.types.Vote vote  = 1 [(gogoproto.nullable) = false];
+  RemoteSignerError     error = 2;
+}
+
+// SignProposalRequest is a request to sign a proposal
+message SignProposalRequest {
+  v1.types.Proposal proposal = 1;
+  string                    chain_id = 2;
+}
+
+// SignedProposalResponse is response containing a signed proposal or an error
+message SignedProposalResponse {
+  v1.types.Proposal proposal = 1 [(gogoproto.nullable) = false];
+  RemoteSignerError         error    = 2;
+}
+
+// PingRequest is a request to confirm that the connection is alive.
+message PingRequest {}
+
+// PingResponse is a response to confirm that the connection is alive.
+message PingResponse {}
+
+message Message {
+  oneof sum {
+    PubKeyRequest          pub_key_request          = 1;
+    PubKeyResponse         pub_key_response         = 2;
+    SignVoteRequest        sign_vote_request        = 3;
+    SignedVoteResponse     signed_vote_response     = 4;
+    SignProposalRequest    sign_proposal_request    = 5;
+    SignedProposalResponse signed_proposal_response = 6;
+    PingRequest            ping_request             = 7;
+    PingResponse           ping_response            = 8;
+  }
+}
+
+// AuthSigMessage is duplicated from p2p prior to the P2P refactor.
+// It is used for the SecretConnection until we migrate privval to gRPC.
+message AuthSigMessage {
+  v1.crypto.PublicKey pub_key = 1 [(gogoproto.nullable) = false];
+  bytes                       sig     = 2;
+}

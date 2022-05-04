@@ -1,0 +1,65 @@
+syntax = "proto3";
+
+// Copyright (c) 2018 Bhojpur Consulting Private Limited, India. All rights reserved.
+
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+
+package v1.p2p;
+
+option go_package = "github.com/bhojpur/state/pkg/api/v1/p2p;p2p";
+
+import "gogoproto/gogo.proto";
+import "google/protobuf/timestamp.proto";
+
+message ProtocolVersion {
+  uint64 p2p   = 1 [(gogoproto.customname) = "P2P"];
+  uint64 block = 2;
+  uint64 app   = 3;
+}
+
+message NodeInfo {
+  ProtocolVersion protocol_version = 1 [(gogoproto.nullable) = false];
+  string          node_id          = 2 [(gogoproto.customname) = "NodeID"];
+  string          listen_addr      = 3;
+  string          network          = 4;
+  string          version          = 5;
+  bytes           channels         = 6;
+  string          moniker          = 7;
+  NodeInfoOther   other            = 8 [(gogoproto.nullable) = false];
+}
+
+message NodeInfoOther {
+  string tx_index    = 1;
+  string rpc_address = 2 [(gogoproto.customname) = "RPCAddress"];
+}
+
+message PeerInfo {
+  string                    id             = 1 [(gogoproto.customname) = "ID"];
+  repeated PeerAddressInfo  address_info   = 2;
+  google.protobuf.Timestamp last_connected = 3 [(gogoproto.stdtime) = true];
+}
+
+message PeerAddressInfo {
+  string                    address           = 1;
+  google.protobuf.Timestamp last_dial_success = 2
+      [(gogoproto.stdtime) = true];
+  google.protobuf.Timestamp last_dial_failure = 3
+      [(gogoproto.stdtime) = true];
+  uint32 dial_failures = 4;
+}

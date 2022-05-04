@@ -1,0 +1,120 @@
+syntax = "proto3";
+
+// Copyright (c) 2018 Bhojpur Consulting Private Limited, India. All rights reserved.
+
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+
+package v1.consensus;
+
+option go_package = "github.com/bhojpur/state/pkg/api/v1/consensus;consensus";
+
+import "gogoproto/gogo.proto";
+import "pkg/api/v1/types/types.proto";
+import "pkg/api/v1/libs/bits/types.proto";
+
+// NewRoundStep is sent for every step taken in the ConsensusState.
+// For every height/round/step transition
+message NewRoundStep {
+  int64  height                   = 1;
+  int32  round                    = 2;
+  uint32 step                     = 3;
+  int64  seconds_since_start_time = 4;
+  int32  last_commit_round        = 5;
+}
+
+// NewValidBlock is sent when a validator observes a valid block B in some round
+// r,
+// i.e., there is a Proposal for block B and 2/3+ prevotes for the block B in
+// the round r.
+// In case the block is also committed, then IsCommit flag is set to true.
+message NewValidBlock {
+  int64                          height                = 1;
+  int32                          round                 = 2;
+  v1.types.PartSetHeader block_part_set_header = 3
+      [(gogoproto.nullable) = false];
+  v1.libs.bits.BitArray block_parts = 4;
+  bool                          is_commit   = 5;
+}
+
+// Proposal is sent when a new block is proposed.
+message Proposal {
+  v1.types.Proposal proposal = 1 [(gogoproto.nullable) = false];
+}
+
+// ProposalPOL is sent when a previous proposal is re-proposed.
+message ProposalPOL {
+  int64                         height             = 1;
+  int32                         proposal_pol_round = 2;
+  v1.libs.bits.BitArray proposal_pol       = 3
+      [(gogoproto.nullable) = false];
+}
+
+// BlockPart is sent when gossipping a piece of the proposed block.
+message BlockPart {
+  int64                 height = 1;
+  int32                 round  = 2;
+  v1.types.Part part   = 3 [(gogoproto.nullable) = false];
+}
+
+// Vote is sent when voting for a proposal (or lack thereof).
+message Vote {
+  v1.types.Vote vote = 1;
+}
+
+// HasVote is sent to indicate that a particular vote has been received.
+message HasVote {
+  int64                          height = 1;
+  int32                          round  = 2;
+  v1.types.SignedMsgType type   = 3;
+  int32                          index  = 4;
+}
+
+// VoteSetMaj23 is sent to indicate that a given BlockID has seen +2/3 votes.
+message VoteSetMaj23 {
+  int64                          height   = 1;
+  int32                          round    = 2;
+  v1.types.SignedMsgType type     = 3;
+  v1.types.BlockID       block_id = 4
+      [(gogoproto.customname) = "BlockID", (gogoproto.nullable) = false];
+}
+
+// VoteSetBits is sent to communicate the bit-array of votes seen for the
+// BlockID.
+message VoteSetBits {
+  int64                          height   = 1;
+  int32                          round    = 2;
+  v1.types.SignedMsgType type     = 3;
+  v1.types.BlockID       block_id = 4
+      [(gogoproto.customname) = "BlockID", (gogoproto.nullable) = false];
+  v1.libs.bits.BitArray votes = 5 [(gogoproto.nullable) = false];
+}
+
+message Message {
+  oneof sum {
+    NewRoundStep  new_round_step  = 1;
+    NewValidBlock new_valid_block = 2;
+    Proposal      proposal        = 3;
+    ProposalPOL   proposal_pol    = 4;
+    BlockPart     block_part      = 5;
+    Vote          vote            = 6;
+    HasVote       has_vote        = 7;
+    VoteSetMaj23  vote_set_maj23  = 8;
+    VoteSetBits   vote_set_bits   = 9;
+  }
+}

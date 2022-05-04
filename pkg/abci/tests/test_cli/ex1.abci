@@ -1,0 +1,10 @@
+echo hello
+info
+commit
+finalize_block "abc"
+info
+commit
+query "abc"
+finalize_block "def=xyz" "ghi=123"
+commit
+query "def"

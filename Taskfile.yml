@@ -1,0 +1,150 @@
+version: "3"
+
+vars:
+  GREETING: Hello, Bhojpur State Developer!
+
+tasks:
+    default:
+        cmds:
+        - echo "{{.GREETING}}"
+        silent: true
+
+    build-tools:
+        desc: Build the Blockchain software tools
+        cmds:
+        - GOFLAGS=-mod=mod go build -o bin/abci ./cmd/abci/main.go 
+        - chmod 755 bin/abci
+        - cp bin/abci $GOPATH/bin
+        - GOFLAGS=-mod=mod go build -o bin/statectl ./cmd/client/main.go 
+        - chmod 755 bin/statectl
+        - cp bin/statectl $GOPATH/bin
+        - GOFLAGS=-mod=mod go build -o bin/statecntr ./cmd/contract/main.go 
+        - chmod 755 bin/statecntr
+        - cp bin/statecntr $GOPATH/bin
+        - GOFLAGS=-mod=mod go build -o bin/privval ./cmd/privval/main.go 
+        - chmod 755 bin/privval
+        - cp bin/privval $GOPATH/bin
+
+    build-desktop:
+        desc: Build the desktop application for current OS
+        cmds:
+        - guiutl package -name "Bhojpur State" -os macos -icon state.png
+        - guiutl package -name "Bhojpur State" -os linux -icon state.png
+        - guiutl package -name "Bhojpur State" -os windows -icon state.png
+
+    package-android:
+        desc: Package the mobile application for Android
+        cmds:
+        - guiutl package -name "Bhojpur State" -os android -appID net.bhojpur.state -icon state.png
+
+    package-ios:
+        desc: Package the mobile application for iOS
+        cmds:
+        - guiutl package -name "Bhojpur State" -os ios -appID net.bhojpur.state -icon state.png
+
+    release-macos:
+        desc: Release the native application for macOS App Store
+        cmds:
+        - guiutl release -appID net.bhojpur.state -appVersion 1.0 -appBuild 1 -category business
+
+    release-android:
+        desc: Release the mobile application for Google Play
+        cmds:
+        - guiutl release -os android -appID net.bhojpur.state -appVersion 1.0 -appBuild 1
+
+    release-ios:
+        desc: Release the mobile application for iOS App Store
+        cmds:
+        - guiutl release -os ios -appID net.bhojpur.state -appVersion 1.0 -appBuild 1
+
+    run-web-server:
+        desc: Run the web server application from source code
+        cmds:
+        - GOFLAGS=-mod=mod go run server.go
+ 
+    run-web-client:
+        desc: Run the web client application from source code
+        cmds:
+        - GOFLAGS=-mod=mod go run client.go
+
+    run-mobile:
+        desc: Run the mobile client application on emulator
+        cmds:
+        - GOFLAGS=-mod=mod go run -tags mobile native/main.go
+
+    run-desktop: 
+        desc: Run the desktop application on local host
+        cmds:
+        - GOFLAGS=-mod=mod go run native/main.go
+
+    generate:
+        desc: Generate Go source code from Protocol Buffers
+        cmds:
+        - protoc --proto_path=. --proto_path=$GOPATH/src/github.com/gogo/protobuf --go_out=./pkg/abci --go_opt=module=github.com/bhojpur/state/pkg/abci pkg/api/v1/abci/types.proto
+        - protoc --proto_path=. --proto_path=$GOPATH/src/github.com/gogo/protobuf --go-grpc_out=./pkg/abci --go-grpc_opt=module=github.com/bhojpur/state/pkg/abci pkg/api/v1/abci/types.proto
+        - protoc --proto_path=. --proto_path=$GOPATH/src/github.com/gogo/protobuf --go_out=./pkg/api --go_opt=module=github.com/bhojpur/state/pkg/api pkg/api/v1/blocksync/types.proto
+        - protoc --proto_path=. --proto_path=$GOPATH/src/github.com/gogo/protobuf --go-grpc_out=. --go-grpc_opt=paths=source_relative pkg/api/v1/blocksync/types.proto
+        - protoc --proto_path=. --proto_path=$GOPATH/src/github.com/gogo/protobuf --go_out=./pkg/api --go_opt=module=github.com/bhojpur/state/pkg/api pkg/api/v1/consensus/types.proto
+        - protoc --proto_path=. --proto_path=$GOPATH/src/github.com/gogo/protobuf --go-grpc_out=. --go-grpc_opt=paths=source_relative pkg/api/v1/consensus/types.proto
+        - protoc --proto_path=. --proto_path=$GOPATH/src/github.com/gogo/protobuf --go_out=./pkg/api --go_opt=module=github.com/bhojpur/state/pkg/api pkg/api/v1/consensus/wal.proto
+        - protoc --proto_path=. --proto_path=$GOPATH/src/github.com/gogo/protobuf --go-grpc_out=. --go-grpc_opt=paths=source_relative pkg/api/v1/consensus/wal.proto
+        - protoc --proto_path=. --proto_path=$GOPATH/src/github.com/gogo/protobuf --go_out=./pkg/api --go_opt=module=github.com/bhojpur/state/pkg/api pkg/api/v1/crypto/keys.proto
+        - protoc --proto_path=. --proto_path=$GOPATH/src/github.com/gogo/protobuf --go-grpc_out=. --go-grpc_opt=paths=source_relative pkg/api/v1/crypto/keys.proto
+        - protoc --proto_path=. --proto_path=$GOPATH/src/github.com/gogo/protobuf --go_out=./pkg/api --go_opt=module=github.com/bhojpur/state/pkg/api pkg/api/v1/crypto/proof.proto
+        - protoc --proto_path=. --proto_path=$GOPATH/src/github.com/gogo/protobuf --go-grpc_out=. --go-grpc_opt=paths=source_relative pkg/api/v1/crypto/proof.proto
+        - protoc --proto_path=. --proto_path=$GOPATH/src/github.com/gogo/protobuf --go_out=./pkg/api --go_opt=module=github.com/bhojpur/state/pkg/api pkg/api/v1/database/types.proto
+        - protoc --proto_path=. --proto_path=$GOPATH/src/github.com/gogo/protobuf --go-grpc_out=. --go-grpc_opt=paths=source_relative pkg/api/v1/database/types.proto
+        - protoc --proto_path=. --proto_path=$GOPATH/src/github.com/gogo/protobuf --go_out=./pkg/api --go_opt=module=github.com/bhojpur/state/pkg/api pkg/api/v1/libs/bits/types.proto
+        - protoc --proto_path=. --proto_path=$GOPATH/src/github.com/gogo/protobuf --go-grpc_out=. --go-grpc_opt=paths=source_relative pkg/api/v1/libs/bits/types.proto
+        - protoc --proto_path=. --proto_path=$GOPATH/src/github.com/gogo/protobuf --go_out=./pkg/api --go_opt=module=github.com/bhojpur/state/pkg/api pkg/api/v1/mempool/types.proto
+        - protoc --proto_path=. --proto_path=$GOPATH/src/github.com/gogo/protobuf --go-grpc_out=. --go-grpc_opt=paths=source_relative pkg/api/v1/mempool/types.proto
+        - protoc --proto_path=. --proto_path=$GOPATH/src/github.com/gogo/protobuf --go_out=./pkg/api --go_opt=module=github.com/bhojpur/state/pkg/api pkg/api/v1/p2p/conn.proto
+        - protoc --proto_path=. --proto_path=$GOPATH/src/github.com/gogo/protobuf --go-grpc_out=. --go-grpc_opt=paths=source_relative pkg/api/v1/p2p/conn.proto
+        - protoc --proto_path=. --proto_path=$GOPATH/src/github.com/gogo/protobuf --go_out=./pkg/api --go_opt=module=github.com/bhojpur/state/pkg/api pkg/api/v1/p2p/pex.proto
+        - protoc --proto_path=. --proto_path=$GOPATH/src/github.com/gogo/protobuf --go-grpc_out=. --go-grpc_opt=paths=source_relative pkg/api/v1/p2p/pex.proto
+        - protoc --proto_path=. --proto_path=$GOPATH/src/github.com/gogo/protobuf --go_out=./pkg/api --go_opt=module=github.com/bhojpur/state/pkg/api pkg/api/v1/p2p/types.proto
+        - protoc --proto_path=. --proto_path=$GOPATH/src/github.com/gogo/protobuf --go-grpc_out=. --go-grpc_opt=paths=source_relative pkg/api/v1/p2p/types.proto
+        - protoc --proto_path=. --proto_path=$GOPATH/src/github.com/gogo/protobuf --go_out=./pkg/api --go_opt=module=github.com/bhojpur/state/pkg/api pkg/api/v1/privval/service.proto
+        - protoc --proto_path=. --proto_path=$GOPATH/src/github.com/gogo/protobuf --go-grpc_out=. --go-grpc_opt=paths=source_relative pkg/api/v1/privval/service.proto
+        - protoc --proto_path=. --proto_path=$GOPATH/src/github.com/gogo/protobuf --go_out=./pkg/api --go_opt=module=github.com/bhojpur/state/pkg/api pkg/api/v1/privval/types.proto
+        - protoc --proto_path=. --proto_path=$GOPATH/src/github.com/gogo/protobuf --go-grpc_out=. --go-grpc_opt=paths=source_relative pkg/api/v1/privval/types.proto
+        - protoc --proto_path=. --proto_path=$GOPATH/src/github.com/gogo/protobuf --go_out=./pkg/api --go_opt=module=github.com/bhojpur/state/pkg/api pkg/api/v1/state/types.proto
+        - protoc --proto_path=. --proto_path=$GOPATH/src/github.com/gogo/protobuf --go-grpc_out=. --go-grpc_opt=paths=source_relative pkg/api/v1/state/types.proto
+        - protoc --proto_path=. --proto_path=$GOPATH/src/github.com/gogo/protobuf --go_out=./pkg/api --go_opt=module=github.com/bhojpur/state/pkg/api pkg/api/v1/statesync/types.proto
+        - protoc --proto_path=. --proto_path=$GOPATH/src/github.com/gogo/protobuf --go-grpc_out=. --go-grpc_opt=paths=source_relative pkg/api/v1/statesync/types.proto
+        - protoc --proto_path=. --proto_path=$GOPATH/src/github.com/gogo/protobuf --go_out=./pkg/api --go_opt=module=github.com/bhojpur/state/pkg/api pkg/api/v1/types/block.proto
+        - protoc --proto_path=. --proto_path=$GOPATH/src/github.com/gogo/protobuf --go-grpc_out=. --go-grpc_opt=paths=source_relative pkg/api/v1/types/block.proto
+        - protoc --proto_path=. --proto_path=$GOPATH/src/github.com/gogo/protobuf --go_out=./pkg/api --go_opt=module=github.com/bhojpur/state/pkg/api pkg/api/v1/types/canonical.proto
+        - protoc --proto_path=. --proto_path=$GOPATH/src/github.com/gogo/protobuf --go-grpc_out=. --go-grpc_opt=paths=source_relative pkg/api/v1/types/canonical.proto
+        - protoc --proto_path=. --proto_path=$GOPATH/src/github.com/gogo/protobuf --go_out=./pkg/api --go_opt=module=github.com/bhojpur/state/pkg/api pkg/api/v1/types/events.proto
+        - protoc --proto_path=. --proto_path=$GOPATH/src/github.com/gogo/protobuf --go-grpc_out=. --go-grpc_opt=paths=source_relative pkg/api/v1/types/events.proto
+        - protoc --proto_path=. --proto_path=$GOPATH/src/github.com/gogo/protobuf --go_out=./pkg/api --go_opt=module=github.com/bhojpur/state/pkg/api pkg/api/v1/types/evidence.proto
+        - protoc --proto_path=. --proto_path=$GOPATH/src/github.com/gogo/protobuf --go-grpc_out=. --go-grpc_opt=paths=source_relative pkg/api/v1/types/evidence.proto
+        - protoc --proto_path=. --proto_path=$GOPATH/src/github.com/gogo/protobuf --go_out=./pkg/api --go_opt=module=github.com/bhojpur/state/pkg/api pkg/api/v1/types/params.proto
+        - protoc --proto_path=. --proto_path=$GOPATH/src/github.com/gogo/protobuf --go-grpc_out=. --go-grpc_opt=paths=source_relative pkg/api/v1/types/params.proto
+        - protoc --proto_path=. --proto_path=$GOPATH/src/github.com/gogo/protobuf --go_out=./pkg/api --go_opt=module=github.com/bhojpur/state/pkg/api pkg/api/v1/types/types.proto
+        - protoc --proto_path=. --proto_path=$GOPATH/src/github.com/gogo/protobuf --go-grpc_out=. --go-grpc_opt=paths=source_relative pkg/api/v1/types/types.proto
+        - protoc --proto_path=. --proto_path=$GOPATH/src/github.com/gogo/protobuf --go_out=./pkg/api --go_opt=module=github.com/bhojpur/state/pkg/api pkg/api/v1/types/validator.proto
+        - protoc --proto_path=. --proto_path=$GOPATH/src/github.com/gogo/protobuf --go-grpc_out=. --go-grpc_opt=paths=source_relative pkg/api/v1/types/validator.proto
+        - protoc --proto_path=. --proto_path=$GOPATH/src/github.com/gogo/protobuf --go_out=./pkg/api --go_opt=module=github.com/bhojpur/state/pkg/api pkg/api/v1/version/types.proto
+        - protoc --proto_path=. --proto_path=$GOPATH/src/github.com/gogo/protobuf --go-grpc_out=. --go-grpc_opt=paths=source_relative pkg/api/v1/version/types.proto
+
+    test:
+        desc: Execute all the Unit Tests
+        cmds:
+        - gotestsum --junitfile test-results/unit-tests.xml -- -short -race -cover -coverprofile test-results/cover.out ./...
+
+    swagger.gen:
+        desc: Generate Go code
+        cmds:
+        - GOFLAGS=-mod=mod go generate bhojpur.net/state/internal bhojpur.net/state/pkg/swagger
+
+    swagger.validate:
+        desc: Validate all the Swagger API specifications
+        cmds:
+        - swagger validate pkg/swagger/swagger.yml
+
+    swagger.doc:
+        desc: Generate documentation for Swagger specified APIs
+        cmds:
+        - docker run -i yousan/swagger-yaml-to-html < pkg/swagger/swagger.yml > doc/index.html

@@ -1,0 +1,7 @@
+check_tx 0x00
+check_tx 0xff
+finalize_block 0x00
+check_tx 0x00
+finalize_block 0x01
+finalize_block 0x04
+info
