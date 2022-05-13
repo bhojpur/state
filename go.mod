@@ -43,7 +43,7 @@ require (
 	github.com/ory/dockertest v3.3.5+incompatible
 	github.com/pelletier/go-toml v1.9.5 // indirect
 	github.com/pelletier/go-toml/v2 v2.0.0 // indirect
-	github.com/prometheus/client_golang v1.12.1
+	github.com/prometheus/client_golang v1.12.2
 	github.com/prometheus/common v0.34.0 // indirect
 	github.com/rs/cors v1.8.2
 	github.com/rs/zerolog v1.26.1
