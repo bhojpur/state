@@ -14,9 +14,9 @@ require (
 	github.com/bhojpur/gorocksdb v0.0.0-20191217155057-f0fad39f321c
 	github.com/btcsuite/btcd v0.22.1
 	github.com/btcsuite/btcutil v1.0.3-0.20201208143702-a53e38424cce
-	github.com/creachadair/atomicfile v0.2.5
+	github.com/creachadair/atomicfile v0.2.6
 	github.com/creachadair/taskgroup v0.3.2
-	github.com/creachadair/tomledit v0.0.19
+	github.com/creachadair/tomledit v0.0.22
 	github.com/dgraph-io/badger/v3 v3.2103.2
 	github.com/facebookgo/ensure v0.0.0-20200202191622-63f1cf65ac4c // indirect
 	github.com/facebookgo/stack v0.0.0-20160209184415-751773369052 // indirect
