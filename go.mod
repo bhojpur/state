@@ -52,7 +52,7 @@ require (
 	github.com/stretchr/objx v0.3.0 // indirect
 	github.com/stretchr/testify v1.7.1
 	github.com/syndtr/goleveldb v1.0.0
-	github.com/vektra/mockery/v2 v2.12.1
+	github.com/vektra/mockery/v2 v2.12.3
 	go.etcd.io/bbolt v1.3.6
 	golang.org/x/crypto v0.0.0-20220427172511-eb4f295cb31f
 	golang.org/x/net v0.0.0-20220425223048-2871e0cb64e4
