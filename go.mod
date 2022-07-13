@@ -5,7 +5,7 @@ go 1.16
 require (
 	github.com/lib/pq v1.10.5
 	github.com/spf13/cobra v1.4.0
-	google.golang.org/grpc v1.46.0
+	google.golang.org/grpc v1.48.0
 	google.golang.org/protobuf v1.28.0
 )
 
