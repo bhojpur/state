@@ -3,9 +3,9 @@ module github.com/bhojpur/state
 go 1.16
 
 require (
-	github.com/lib/pq v1.10.5
-	github.com/spf13/cobra v1.4.0
-	google.golang.org/grpc v1.46.0
+	github.com/lib/pq v1.10.6
+	github.com/spf13/cobra v1.5.0
+	google.golang.org/grpc v1.46.2
 	google.golang.org/protobuf v1.28.0
 )
 
@@ -22,15 +22,14 @@ require (
 	github.com/facebookgo/stack v0.0.0-20160209184415-751773369052 // indirect
 	github.com/facebookgo/subset v0.0.0-20200203212716-c811ad88dec4 // indirect
 	github.com/fortytw2/leaktest v1.3.0
-	github.com/fsnotify/fsnotify v1.5.4 // indirect
 	github.com/go-kit/kit v0.12.0
 	github.com/gogo/protobuf v1.3.2
 	github.com/golang/glog v1.0.0 // indirect
 	github.com/golang/snappy v0.0.4 // indirect
-	github.com/golangci/golangci-lint v1.45.2
+	github.com/golangci/golangci-lint v1.47.1
 	github.com/google/btree v1.0.1
 	github.com/google/flatbuffers v2.0.6+incompatible // indirect
-	github.com/google/go-cmp v0.5.7
+	github.com/google/go-cmp v0.5.8
 	github.com/google/orderedcode v0.0.1
 	github.com/google/uuid v1.3.0
 	github.com/gorilla/websocket v1.5.0
@@ -38,27 +37,21 @@ require (
 	github.com/grpc-ecosystem/go-grpc-prometheus v1.2.0
 	github.com/klauspost/compress v1.15.2 // indirect
 	github.com/libp2p/go-buffer-pool v0.0.2
-	github.com/mitchellh/mapstructure v1.5.0 // indirect
 	github.com/oasisprotocol/curve25519-voi v0.0.0-20220328075252-7dd334e3daae
 	github.com/ory/dockertest v3.3.5+incompatible
-	github.com/pelletier/go-toml v1.9.5 // indirect
-	github.com/pelletier/go-toml/v2 v2.0.0 // indirect
 	github.com/prometheus/client_golang v1.12.1
 	github.com/prometheus/common v0.34.0 // indirect
 	github.com/rs/cors v1.8.2
 	github.com/rs/zerolog v1.26.1
 	github.com/snikch/goodman v0.0.0-20171125024755-10e37e294daa
-	github.com/spf13/viper v1.11.0
-	github.com/stretchr/objx v0.3.0 // indirect
-	github.com/stretchr/testify v1.7.1
+	github.com/spf13/viper v1.12.0
+	github.com/stretchr/testify v1.8.0
 	github.com/syndtr/goleveldb v1.0.0
 	github.com/vektra/mockery/v2 v2.12.1
 	go.etcd.io/bbolt v1.3.6
-	golang.org/x/crypto v0.0.0-20220427172511-eb4f295cb31f
-	golang.org/x/net v0.0.0-20220425223048-2871e0cb64e4
-	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c
-	golang.org/x/sys v0.0.0-20220502124256-b6088ccd6cba // indirect
-	google.golang.org/genproto v0.0.0-20220502173005-c8bf987b8c21 // indirect
+	golang.org/x/crypto v0.0.0-20220525230936-793ad666bf5e
+	golang.org/x/net v0.0.0-20220520000938-2e3eb7b945c2
+	golang.org/x/sync v0.0.0-20220513210516-0976fa681c29
 	gotest.tools v2.2.0+incompatible
 	pgregory.net/rapid v0.4.7
 )
