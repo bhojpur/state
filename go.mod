@@ -12,7 +12,6 @@ require (
 require (
 	github.com/adlio/schema v1.3.0
 	github.com/bhojpur/gorocksdb v0.0.0-20191217155057-f0fad39f321c
-	github.com/btcsuite/btcd v0.22.1
 	github.com/btcsuite/btcutil v1.0.3-0.20201208143702-a53e38424cce
 	github.com/creachadair/atomicfile v0.2.5
 	github.com/creachadair/taskgroup v0.3.2
@@ -26,7 +25,6 @@ require (
 	github.com/go-kit/kit v0.12.0
 	github.com/gogo/protobuf v1.3.2
 	github.com/golang/glog v1.0.0 // indirect
-	github.com/golang/snappy v0.0.4 // indirect
 	github.com/golangci/golangci-lint v1.45.2
 	github.com/google/btree v1.0.1
 	github.com/google/flatbuffers v2.0.6+incompatible // indirect
@@ -51,7 +49,7 @@ require (
 	github.com/spf13/viper v1.11.0
 	github.com/stretchr/objx v0.3.0 // indirect
 	github.com/stretchr/testify v1.7.1
-	github.com/syndtr/goleveldb v1.0.0
+	github.com/syndtr/goleveldb v1.0.1-0.20210819022825-2ae1ddf74ef7
 	github.com/vektra/mockery/v2 v2.12.1
 	go.etcd.io/bbolt v1.3.6
 	golang.org/x/crypto v0.0.0-20220427172511-eb4f295cb31f
