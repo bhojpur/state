@@ -5,7 +5,7 @@ go 1.16
 require (
 	github.com/lib/pq v1.10.5
 	github.com/spf13/cobra v1.4.0
-	google.golang.org/grpc v1.46.0
+	google.golang.org/grpc v1.51.0
 	google.golang.org/protobuf v1.28.0
 )
 
@@ -55,9 +55,8 @@ require (
 	github.com/vektra/mockery/v2 v2.12.1
 	go.etcd.io/bbolt v1.3.6
 	golang.org/x/crypto v0.0.0-20220427172511-eb4f295cb31f
-	golang.org/x/net v0.0.0-20220425223048-2871e0cb64e4
-	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c
-	golang.org/x/sys v0.0.0-20220502124256-b6088ccd6cba // indirect
+	golang.org/x/net v0.0.0-20220722155237-a158d28d115b
+	golang.org/x/sync v0.0.0-20220722155255-886fb9371eb4
 	google.golang.org/genproto v0.0.0-20220502173005-c8bf987b8c21 // indirect
 	gotest.tools v2.2.0+incompatible
 	pgregory.net/rapid v0.4.7
