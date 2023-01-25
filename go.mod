@@ -5,8 +5,8 @@ go 1.16
 require (
 	github.com/lib/pq v1.10.5
 	github.com/spf13/cobra v1.4.0
-	google.golang.org/grpc v1.46.0
-	google.golang.org/protobuf v1.28.0
+	google.golang.org/grpc v1.52.1
+	google.golang.org/protobuf v1.28.1
 )
 
 require (
@@ -30,7 +30,7 @@ require (
 	github.com/golangci/golangci-lint v1.45.2
 	github.com/google/btree v1.0.1
 	github.com/google/flatbuffers v2.0.6+incompatible // indirect
-	github.com/google/go-cmp v0.5.7
+	github.com/google/go-cmp v0.5.9
 	github.com/google/orderedcode v0.0.1
 	github.com/google/uuid v1.3.0
 	github.com/gorilla/websocket v1.5.0
@@ -55,10 +55,8 @@ require (
 	github.com/vektra/mockery/v2 v2.12.1
 	go.etcd.io/bbolt v1.3.6
 	golang.org/x/crypto v0.0.0-20220427172511-eb4f295cb31f
-	golang.org/x/net v0.0.0-20220425223048-2871e0cb64e4
-	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c
-	golang.org/x/sys v0.0.0-20220502124256-b6088ccd6cba // indirect
-	google.golang.org/genproto v0.0.0-20220502173005-c8bf987b8c21 // indirect
+	golang.org/x/net v0.4.0
+	golang.org/x/sync v0.1.0
 	gotest.tools v2.2.0+incompatible
 	pgregory.net/rapid v0.4.7
 )
